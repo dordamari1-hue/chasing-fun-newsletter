@@ -1,0 +1,134 @@
+<!--
+  TEMPLATE: mobile-magazine-template.html
+  PURPOSE: Master HTML template for every weekly post.
+  USE: The agent fills in {{placeholders}} from weekly input,
+       saves the result to site/posts/weekend-insights-{N}.html,
+       and commits + pushes.
+  RULES:
+   - Mobile-first (max-width 680px, RTL, Hebrew defaults)
+   - All inline CSS (no external stylesheets — Vercel serves as-is)
+   - All links must carry UTMs (see 00-core/UTM_RULES.md)
+   - Campaign name appears in EVERY UTM — replace {{campaign_name}} globally
+-->
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{post_title}} — Chasing Fun</title>
+  <meta name="description" content="{{post_meta_description}}" />
+  <meta property="og:title" content="{{post_title}} — Chasing Fun" />
+  <meta property="og:description" content="{{post_meta_description}}" />
+  <meta property="og:type" content="article" />
+  <meta property="og:image" content="{{og_image_url}}" />
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Heebo",Arial,sans-serif;background:#f8fafc;color:#0f172a;direction:rtl;text-align:right;line-height:1.8;-webkit-font-smoothing:antialiased}
+    .wrap{max-width:680px;margin:0 auto;padding:24px 18px 60px}
+    .hero{background:linear-gradient(135deg,#0f172a 0%,#134e4a 100%);color:#fff;padding:48px 24px;border-radius:18px;margin-bottom:20px;text-align:center}
+    .hero .brand-tag{font-size:11px;letter-spacing:2px;opacity:.7;margin-bottom:12px;text-transform:uppercase}
+    .hero h1{font-size:32px;font-weight:800;margin-bottom:8px}
+    .hero p{font-size:16px;opacity:.85}
+    .card{background:#fff;border-radius:18px;padding:24px;margin-bottom:16px;box-shadow:0 2px 8px rgba(15,23,42,.05)}
+    .card h2{font-size:20px;margin-bottom:12px;color:#0f172a}
+    .card p{font-size:16px;color:#1e293b;margin-bottom:10px}
+    .wave-num{display:inline-block;font-size:11px;font-weight:700;letter-spacing:1px;color:#14b8a6;margin-bottom:8px;text-transform:uppercase}
+    .intro{font-size:15px;color:#475569}
+    img.full{width:100%;border-radius:16px;margin:12px 0;display:block}
+    iframe{width:100%;height:220px;border:0;border-radius:12px;margin-top:12px}
+    blockquote{border-right:3px solid #14b8a6;padding-right:16px;margin:12px 0;color:#334155;font-style:italic}
+    .cta-block{background:linear-gradient(135deg,#134e4a 0%,#0f766e 100%);color:#fff;padding:28px 24px;border-radius:18px;margin:20px 0;text-align:center}
+    .cta-block h2{color:#fff;margin-bottom:10px;font-size:20px}
+    .cta-block p{color:#d1fae5;font-size:15px;margin-bottom:16px}
+    .btn{display:block;width:100%;padding:14px 20px;background:#f97316;color:#fff!important;text-decoration:none;border-radius:12px;font-weight:700;margin-bottom:10px;text-align:center;font-size:16px}
+    .btn.dark{background:#0f172a}
+    .btn.green{background:#10b981}
+    .share-note{text-align:center;color:#64748b;font-size:13px;margin:16px 0}
+    footer{margin-top:24px;text-align:center}
+    footer img{max-width:140px;opacity:.8}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+
+    <!-- HERO (constant) -->
+    <header class="hero">
+      <div class="brand-tag">CHASING FUN WEEKEND MAGAZINE</div>
+      <h1>תובנות לסופ״ש</h1>
+      <p>חמישה גלים של מחשבה, גלישה, חיים והשראה</p>
+    </header>
+
+    <!-- INTRO (constant) -->
+    <div class="card">
+      <p class="intro">
+        מידי סופ"ש אתם תקבלו ממני את חמשת התובנות שלי מהשבוע האחרון —
+        מהים והגלישה, מהטיולים, מהחיים ודברים שגרמו לי לשנות ולהשתנות,
+        במטרה לתת לכם ערך, ובתקווה להביא אתכם לשיפור / שינוי, השראה או סתם להעלות לכם חיוך.
+      </p>
+    </div>
+
+    <!-- FORECAST -->
+    <div class="card">
+      <span class="wave-num">תחזית גלים לסופ״ש</span>
+      <h2>{{forecast_title}}</h2>
+      <p>{{forecast_text}}</p>
+      {{#forecast_image_url}}<img class="full" src="{{forecast_image_url}}" alt="תחזית גלים לסופ״ש" />{{/forecast_image_url}}
+    </div>
+
+    <!-- WAVE 1 -->
+    <div class="card">
+      <span class="wave-num">גל #1</span>
+      <h2>{{wave_1_title}}</h2>
+      {{wave_1_body}}
+    </div>
+
+    <!-- WAVE 2 -->
+    <div class="card">
+      <span class="wave-num">גל #2</span>
+      <h2>{{wave_2_title}}</h2>
+      <blockquote>{{wave_2_quote}}</blockquote>
+      {{wave_2_body}}
+    </div>
+
+    <!-- WAVE 3 -->
+    <div class="card">
+      <span class="wave-num">גל #3</span>
+      <h2>{{wave_3_title}}</h2>
+      {{wave_3_body}}
+    </div>
+
+    <!-- WAVE 4 -->
+    <div class="card">
+      <span class="wave-num">גל #4</span>
+      <h2>{{wave_4_title}}</h2>
+      {{wave_4_body}}
+    </div>
+
+    <!-- WAVE 5 -->
+    <div class="card">
+      <span class="wave-num">גל #5</span>
+      <h2>{{wave_5_title}}</h2>
+      {{wave_5_body}}
+      {{video_embed_html}}
+    </div>
+
+    <!-- DYNAMIC CTA BLOCK -->
+    {{dynamic_cta_block}}
+
+    <!-- FIXED CTA -->
+    <div class="card">
+      <h2>נשארנו בקשר</h2>
+      <a href="https://forms.gle/APYSNPtgJZdH6wYP7?utm_source=page&amp;utm_medium=cta&amp;utm_campaign={{campaign_name}}" class="btn dark">הצטרפות לניוזלטר</a>
+      <a href="https://wa.me/972548668646?text=%D7%A7%D7%A8%D7%90%D7%AA%D7%99%20%D7%90%D7%AA%20%D7%94%D7%A4%D7%95%D7%A1%D7%98%2C%20%D7%AA%D7%95%D7%93%D7%94&amp;utm_source=page&amp;utm_medium=cta&amp;utm_campaign={{campaign_name}}" class="btn green">קראתי את הפוסט, תודה</a>
+      <p class="share-note">מרגישים שיש אנשים שהדף הזה יכול לעזור להם? שלחו להם את הלינק.</p>
+    </div>
+
+    <!-- FOOTER (constant) -->
+    <footer>
+      <img src="https://chasingfun.co.il/wp-content/uploads/2026/03/Final-Logo-01-3.png" alt="Chasing Fun" />
+      <div style="color:#94a3b8;font-size:13px;margin-top:8px;">© Chasing Fun</div>
+    </footer>
+
+  </div>
+</body>
+</html>

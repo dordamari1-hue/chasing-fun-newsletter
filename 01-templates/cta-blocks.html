@@ -1,0 +1,60 @@
+<!--
+  cta-blocks.html — Reusable dynamic CTA blocks
+  The agent picks ONE block per week (or none) and inserts into {{dynamic_cta_block}}
+  in mobile-magazine-template.html.
+
+  Replace {{campaign_name}} globally before inserting.
+-->
+
+<!-- ====================================================================
+     1. SUMMER TRIP — default when nothing else is more urgent
+     ==================================================================== -->
+<div class="cta-block">
+  <h2>הקיץ נפתח</h2>
+  <p>זה בדיוק הזמן להתחיל להזיז עניינים עם החופשות שלכם. הדולר עדיין יחסית נוח, הטיסות עוד במחירים סבירים — מי שמחכה יותר מדי בדרך כלל פוגש מחירים גבוהים ופחות אפשרויות.</p>
+  <a href="https://wa.me/972548668646?text=%D7%90%D7%A0%D7%99%20%D7%A8%D7%95%D7%A6%D7%94%20%D7%9C%D7%91%D7%93%D7%95%D7%A7%20%D7%98%D7%99%D7%95%D7%9C%20%D7%92%D7%9C%D7%99%D7%A9%D7%94%20%D7%9C%D7%A7%D7%99%D7%A5&amp;utm_source=page&amp;utm_medium=summer_trip_cta&amp;utm_campaign={{campaign_name}}" class="btn">בדיקת התאמה לטיול קיץ</a>
+</div>
+
+<!-- ====================================================================
+     2. EARLY BIRD — when there's a specific trip with limited spots
+     ==================================================================== -->
+<div class="cta-block">
+  <h2>{{trip_name}} — Early Bird</h2>
+  <p>{{trip_short_description}} — מחיר מיוחד למצטרפים מוקדם, נסגר ב-{{deadline_date}}.</p>
+  <a href="https://wa.me/972548668646?text=%D7%90%D7%A0%D7%99%20%D7%9E%D7%A2%D7%95%D7%A0%D7%99%D7%99%D7%9F%20%D7%91-{{trip_name_encoded}}&amp;utm_source=page&amp;utm_medium=early_bird_cta&amp;utm_campaign={{campaign_name}}" class="btn">לבדוק התאמה</a>
+</div>
+
+<!-- ====================================================================
+     3. EVENT — local meetup, surf day, beach gathering
+     ==================================================================== -->
+<div class="cta-block">
+  <h2>{{event_name}}</h2>
+  <p>{{event_description}}</p>
+  <p style="font-size:14px;opacity:.85;">{{event_date_and_location}}</p>
+  <a href="https://wa.me/972548668646?text=%D7%90%D7%A0%D7%99%20%D7%9E%D7%92%D7%99%D7%A2%20%D7%9C-{{event_name_encoded}}&amp;utm_source=page&amp;utm_medium=event_cta&amp;utm_campaign={{campaign_name}}" class="btn">אני מגיע</a>
+</div>
+
+<!-- ====================================================================
+     4. COMMUNITY — when the focus is on growing the inner circle
+     ==================================================================== -->
+<div class="cta-block">
+  <h2>הקהילה של Chasing Fun</h2>
+  <p>{{community_message}}</p>
+  <a href="https://wa.me/972548668646?text=%D7%90%D7%A0%D7%99%20%D7%A8%D7%95%D7%A6%D7%94%20%D7%9C%D7%94%D7%A6%D7%98%D7%A8%D7%A3%20%D7%9C%D7%A7%D7%94%D7%99%D7%9C%D7%94&amp;utm_source=page&amp;utm_medium=community_cta&amp;utm_campaign={{campaign_name}}" class="btn">להצטרף</a>
+</div>
+
+<!-- ====================================================================
+     5. CONTENT TEASE — when the focus is on something coming next week
+     (no CTA button — just narrative; soft, sets up next post)
+     ==================================================================== -->
+<div class="cta-block" style="background:linear-gradient(135deg,#1e293b 0%,#0f172a 100%);">
+  <h2>{{teaser_title}}</h2>
+  <p>{{teaser_body}}</p>
+  <p style="font-size:13px;opacity:.7;margin-top:8px;">— נמשיך בסופ״ש הבא.</p>
+</div>
+
+<!-- ====================================================================
+     6. NONE — sometimes the best CTA is no CTA. Insert this comment line
+     in the template if Dor wants the post to be content-only this week.
+     ==================================================================== -->
+<!-- (no dynamic CTA this week) -->
