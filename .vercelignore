@@ -1,0 +1,14 @@
+# Vercel only deploys files inside the configured Root Directory (site/),
+# so this file is mostly insurance. Anything listed here is excluded
+# even if Root Directory is set differently.
+
+00-core/
+01-templates/
+02-workflows/
+03-prompts/
+04-inputs/
+05-outputs/
+06-analytics/
+07-integrations/
+README.md
+.gitignore

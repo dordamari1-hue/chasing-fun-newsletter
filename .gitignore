@@ -1,0 +1,30 @@
+# OS / editor noise
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+.idea/
+.vscode/
+
+# Vercel local artifacts
+.vercel/
+
+# Node (in case we ever add tooling)
+node_modules/
+.env
+.env.local
+.env.*.local
+npm-debug.log*
+
+# Local-only working files
+05-outputs/drafts/*.local.*
+05-outputs/*.tmp
+*.bak
+
+# SECRETS — never commit anything in .local/
+.local/
+*.token
+*.secret
+
+# Allow keeping the empty folders in git
+!.gitkeep
