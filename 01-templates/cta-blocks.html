@@ -4,15 +4,18 @@
   in mobile-magazine-template.html.
 
   Replace {{campaign_name}} globally before inserting.
+
+  PRINCIPLE: copy must reference SOMETHING SPECIFIC about the moment —
+  not generic "summer is open" lines. Each block has a stronger default below.
 -->
 
 <!-- ====================================================================
-     1. SUMMER TRIP — default when nothing else is more urgent
+     1. SUMMER TRIP — default when nothing more urgent. Personal, specific.
      ==================================================================== -->
 <div class="cta-block">
-  <h2>הקיץ נפתח</h2>
-  <p>זה בדיוק הזמן להתחיל להזיז עניינים עם החופשות שלכם. הדולר עדיין יחסית נוח, הטיסות עוד במחירים סבירים — מי שמחכה יותר מדי בדרך כלל פוגש מחירים גבוהים ופחות אפשרויות.</p>
-  <a href="https://wa.me/972548668646?text=%D7%90%D7%A0%D7%99%20%D7%A8%D7%95%D7%A6%D7%94%20%D7%9C%D7%91%D7%93%D7%95%D7%A7%20%D7%98%D7%99%D7%95%D7%9C%20%D7%92%D7%9C%D7%99%D7%A9%D7%94%20%D7%9C%D7%A7%D7%99%D7%A5&amp;utm_source=page&amp;utm_medium=summer_trip_cta&amp;utm_campaign={{campaign_name}}" class="btn">בדיקת התאמה לטיול קיץ</a>
+  <h2>אם הקיץ הזה אצלך כבר על השולחן</h2>
+  <p>אני שומר 4-5 שיחות התאמה השבוע — לא מכירה, רק לראות אם הטיולים שלי מתאימים למה שאתה מחפש. אם בא לך לבדוק, זה הזמן.</p>
+  <a href="https://wa.me/972548668646?text=%D7%90%D7%A0%D7%99%20%D7%A8%D7%95%D7%A6%D7%94%20%D7%9C%D7%91%D7%93%D7%95%D7%A7%20%D7%98%D7%99%D7%95%D7%9C%20%D7%92%D7%9C%D7%99%D7%A9%D7%94%20%D7%9C%D7%A7%D7%99%D7%A5&amp;utm_source=page&amp;utm_medium=summer_trip_cta&amp;utm_campaign={{campaign_name}}" class="btn">בוא נסגור שיחה קצרה</a>
 </div>
 
 <!-- ====================================================================
@@ -20,7 +23,7 @@
      ==================================================================== -->
 <div class="cta-block">
   <h2>{{trip_name}} — Early Bird</h2>
-  <p>{{trip_short_description}} — מחיר מיוחד למצטרפים מוקדם, נסגר ב-{{deadline_date}}.</p>
+  <p>{{trip_short_description}}<br>מחיר מיוחד למצטרפים מוקדם. נסגר ב-{{deadline_date}}.</p>
   <a href="https://wa.me/972548668646?text=%D7%90%D7%A0%D7%99%20%D7%9E%D7%A2%D7%95%D7%A0%D7%99%D7%99%D7%9F%20%D7%91-{{trip_name_encoded}}&amp;utm_source=page&amp;utm_medium=early_bird_cta&amp;utm_campaign={{campaign_name}}" class="btn">לבדוק התאמה</a>
 </div>
 
@@ -44,8 +47,7 @@
 </div>
 
 <!-- ====================================================================
-     5. CONTENT TEASE — when the focus is on something coming next week
-     (no CTA button — just narrative; soft, sets up next post)
+     5. CONTENT TEASER — narrative only, no button. Sets up next week.
      ==================================================================== -->
 <div class="cta-block" style="background:linear-gradient(135deg,#1e293b 0%,#0f172a 100%);">
   <h2>{{teaser_title}}</h2>
@@ -54,7 +56,6 @@
 </div>
 
 <!-- ====================================================================
-     6. NONE — sometimes the best CTA is no CTA. Insert this comment line
-     in the template if Dor wants the post to be content-only this week.
+     6. NONE — sometimes the best CTA is no CTA. Insert this comment line:
+     (no dynamic CTA this week)
      ==================================================================== -->
-<!-- (no dynamic CTA this week) -->

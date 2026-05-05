@@ -5,10 +5,26 @@
 
 ---
 
-## Newsletter Signup
+## Newsletter Signup (legacy Google Form — kept as fallback)
 ```
 https://forms.gle/APYSNPtgJZdH6wYP7
 ```
+
+## Newsletter Signup Endpoint (new — inline form on site, posts to Google Sheet)
+```
+NEEDS_SETUP
+```
+> Set up via `07-integrations/newsletter-signup-setup.md`.
+> When deployed, paste the Apps Script Web App URL here (replaces `NEEDS_SETUP`).
+> The agent injects it into all templates wherever `{{signup_endpoint_url}}` appears.
+
+## Forecast Widget — Default Spot
+- **Spot:** Hilton Beach, Tel Aviv (default — overridable per post)
+- **Embed URL pattern:**
+  ```
+  https://embed.windy.com/embed2.html?lat=32.0917&lon=34.7700&zoom=11&level=surface&overlay=waves&menu=&message=&marker=&calendar=&pressure=&type=map&location=coordinates&detail=&detailLat=32.0917&detailLon=34.7700&metricWind=default&metricTemp=default&radarRange=-1
+  ```
+> Configure other spots via `07-integrations/forecast-widget-setup.md`.
 
 ## Logo (always at footer)
 ```

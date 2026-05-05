@@ -32,31 +32,69 @@
   <style>
     *{box-sizing:border-box;margin:0;padding:0}
     body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Heebo",Arial,sans-serif;background:#f8fafc;color:#0f172a;direction:rtl;text-align:right;line-height:1.8;-webkit-font-smoothing:antialiased}
+    .progress-bar{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,#14b8a6,#0f766e);width:0;z-index:1000;transition:width .1s}
     .wrap{max-width:680px;margin:0 auto;padding:24px 18px 60px}
-    .hero{background:linear-gradient(135deg,#0f172a 0%,#134e4a 100%);color:#fff;padding:48px 24px;border-radius:18px;margin-bottom:20px;text-align:center}
+    .hero{background:linear-gradient(135deg,#0f172a 0%,#134e4a 100%);color:#fff;padding:48px 24px;border-radius:18px;margin-bottom:14px;text-align:center}
     .hero .brand-tag{font-size:11px;letter-spacing:2px;opacity:.7;margin-bottom:12px;text-transform:uppercase}
     .hero h1{font-size:32px;font-weight:800;margin-bottom:8px}
     .hero p{font-size:16px;opacity:.85}
+    .hero .read-time{display:inline-block;margin-top:14px;font-size:12px;background:rgba(255,255,255,.12);padding:5px 12px;border-radius:20px;color:#d1fae5}
+    .framing{font-size:14px;color:#64748b;margin:18px 4px 18px;text-align:center;font-style:italic}
     .card{background:#fff;border-radius:18px;padding:24px;margin-bottom:16px;box-shadow:0 2px 8px rgba(15,23,42,.05)}
     .card h2{font-size:20px;margin-bottom:12px;color:#0f172a}
     .card p{font-size:16px;color:#1e293b;margin-bottom:10px}
     .wave-num{display:inline-block;font-size:11px;font-weight:700;letter-spacing:1px;color:#14b8a6;margin-bottom:8px;text-transform:uppercase}
-    .intro{font-size:15px;color:#475569}
     img.full{width:100%;border-radius:16px;margin:12px 0;display:block}
-    iframe{width:100%;height:220px;border:0;border-radius:12px;margin-top:12px}
+    iframe.video{width:100%;height:220px;border:0;border-radius:12px;margin-top:12px}
+    iframe.windy{width:100%;height:280px;border:0;border-radius:12px;margin-top:8px}
     blockquote{border-right:3px solid #14b8a6;padding-right:16px;margin:12px 0;color:#334155;font-style:italic}
+
+    /* Wave #4 (Tip) — visually distinct, screenshot-able */
+    .card.tip{background:linear-gradient(135deg,#ecfdf5 0%,#d1fae5 100%);border:1px solid #6ee7b7}
+    .card.tip .wave-num{color:#047857}
+    .card.tip h2{color:#065f46}
+    .card.tip .tip-action{margin-top:12px;padding:14px 16px;background:rgba(255,255,255,.7);border-radius:12px;font-weight:600;color:#0f172a;font-size:15px}
+
+    /* Inline image card */
+    .photo-card{margin-bottom:16px;border-radius:18px;overflow:hidden}
+    .photo-card img{width:100%;display:block}
+    .photo-card .caption{background:#fff;padding:10px 18px;font-size:13px;color:#64748b;text-align:center;font-style:italic}
+
     .cta-block{background:linear-gradient(135deg,#134e4a 0%,#0f766e 100%);color:#fff;padding:28px 24px;border-radius:18px;margin:20px 0;text-align:center}
     .cta-block h2{color:#fff;margin-bottom:10px;font-size:20px}
     .cta-block p{color:#d1fae5;font-size:15px;margin-bottom:16px}
-    .btn{display:block;width:100%;padding:14px 20px;background:#f97316;color:#fff!important;text-decoration:none;border-radius:12px;font-weight:700;margin-bottom:10px;text-align:center;font-size:16px}
+    .btn{display:block;width:100%;padding:14px 20px;background:#f97316;color:#fff!important;text-decoration:none;border-radius:12px;font-weight:700;margin-bottom:10px;text-align:center;font-size:16px;border:0;cursor:pointer;font-family:inherit}
     .btn.dark{background:#0f172a}
     .btn.green{background:#10b981}
-    .share-note{text-align:center;color:#64748b;font-size:13px;margin:16px 0}
+    .btn.outline{background:transparent;border:2px solid #cbd5e1;color:#0f172a!important}
+
+    /* Up-next teaser */
+    .up-next{text-align:center;padding:14px;color:#64748b;font-size:14px;margin:8px 0 18px}
+    .up-next strong{color:#0f172a}
+
+    /* Inline signup form */
+    .signup-form{margin-top:16px}
+    .signup-form input{width:100%;padding:14px;border:1px solid #e2e8f0;border-radius:12px;font-size:16px;font-family:inherit;direction:rtl;text-align:right;background:#fff;margin-bottom:10px}
+    .signup-form input:focus{outline:none;border-color:#14b8a6}
+    .signup-form .status{font-size:13px;color:#64748b;text-align:center;margin-top:8px;min-height:18px}
+    .signup-form .status.success{color:#059669}
+    .signup-form .status.error{color:#dc2626}
+
+    .share-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+    .share-row .btn{margin-bottom:0}
+    .share-note{text-align:center;color:#64748b;font-size:13px;margin:14px 0 0}
+
     footer{margin-top:24px;text-align:center}
     footer img{max-width:140px;opacity:.8}
+    footer .footer-links{margin-top:10px;font-size:13px;color:#94a3b8}
+    footer .footer-links a{color:#64748b;text-decoration:none;margin:0 6px}
+    footer .footer-links a:hover{color:#0f172a;text-decoration:underline}
   </style>
 </head>
 <body>
+
+  <div class="progress-bar" id="progressBar"></div>
+
   <div class="wrap">
 
     <!-- HERO (constant) -->
@@ -64,57 +102,62 @@
       <div class="brand-tag">CHASING FUN WEEKEND MAGAZINE</div>
       <h1>תובנות לסופ״ש</h1>
       <p>חמישה גלים של מחשבה, גלישה, חיים והשראה</p>
+      <div class="read-time">⏱ קריאה של {{read_time_minutes}} דקות</div>
     </header>
 
-    <!-- INTRO (constant) -->
-    <div class="card">
-      <p class="intro">
-        מידי סופ"ש אתם תקבלו ממני את חמשת התובנות שלי מהשבוע האחרון —
-        מהים והגלישה, מהטיולים, מהחיים ודברים שגרמו לי לשנות ולהשתנות,
-        במטרה לתת לכם ערך, ובתקווה להביא אתכם לשיפור / שינוי, השראה או סתם להעלות לכם חיוך.
-      </p>
-    </div>
+    <!-- WEEK-SPECIFIC FRAMING (1 short line, varies each week) -->
+    <div class="framing">{{week_framing}}</div>
 
     <!-- FORECAST -->
     <div class="card">
       <span class="wave-num">תחזית גלים לסופ״ש</span>
       <h2>{{forecast_title}}</h2>
+      {{windy_widget_html}}
       <p>{{forecast_text}}</p>
       {{#forecast_image_url}}<img class="full" src="{{forecast_image_url}}" alt="תחזית גלים לסופ״ש" />{{/forecast_image_url}}
     </div>
 
     <!-- WAVE 1 -->
     <div class="card">
-      <span class="wave-num">גל #1</span>
+      <span class="wave-num">גל #1 · אישי</span>
       <h2>{{wave_1_title}}</h2>
       {{wave_1_body}}
     </div>
 
-    <!-- WAVE 2 -->
+    <!-- WAVE 2 — reframed: "קטע שעבד עליי השבוע" (quote / lyric / line) -->
     <div class="card">
-      <span class="wave-num">גל #2</span>
+      <span class="wave-num">גל #2 · קטע שעבד עליי השבוע</span>
       <h2>{{wave_2_title}}</h2>
       <blockquote>{{wave_2_quote}}</blockquote>
       {{wave_2_body}}
     </div>
 
+    <!-- OPTIONAL INLINE IMAGE (between waves 2 and 3) -->
+    {{#inline_image_after_wave_2}}
+    <div class="photo-card">
+      <img src="{{inline_image_after_wave_2_url}}" alt="{{inline_image_after_wave_2_alt}}" />
+      {{#inline_image_after_wave_2_caption}}<div class="caption">{{inline_image_after_wave_2_caption}}</div>{{/inline_image_after_wave_2_caption}}
+    </div>
+    {{/inline_image_after_wave_2}}
+
     <!-- WAVE 3 -->
     <div class="card">
-      <span class="wave-num">גל #3</span>
+      <span class="wave-num">גל #3 · מה למדתי השבוע</span>
       <h2>{{wave_3_title}}</h2>
       {{wave_3_body}}
     </div>
 
-    <!-- WAVE 4 -->
-    <div class="card">
-      <span class="wave-num">גל #4</span>
+    <!-- WAVE 4 — embraced as the practical card. Visually distinct (green tone). -->
+    <div class="card tip">
+      <span class="wave-num">גל #4 · טיפ לים</span>
       <h2>{{wave_4_title}}</h2>
       {{wave_4_body}}
+      {{#wave_4_action}}<div class="tip-action">👉 {{wave_4_action}}</div>{{/wave_4_action}}
     </div>
 
     <!-- WAVE 5 -->
     <div class="card">
-      <span class="wave-num">גל #5</span>
+      <span class="wave-num">גל #5 · תוכן לצפייה</span>
       <h2>{{wave_5_title}}</h2>
       {{wave_5_body}}
       {{video_embed_html}}
@@ -123,20 +166,95 @@
     <!-- DYNAMIC CTA BLOCK -->
     {{dynamic_cta_block}}
 
-    <!-- FIXED CTA -->
-    <div class="card">
-      <h2>נשארנו בקשר</h2>
-      <a href="https://forms.gle/APYSNPtgJZdH6wYP7?utm_source=page&amp;utm_medium=cta&amp;utm_campaign={{campaign_name}}" class="btn dark">הצטרפות לניוזלטר</a>
-      <a href="https://wa.me/972548668646?text=%D7%A7%D7%A8%D7%90%D7%AA%D7%99%20%D7%90%D7%AA%20%D7%94%D7%A4%D7%95%D7%A1%D7%98%2C%20%D7%AA%D7%95%D7%93%D7%94&amp;utm_source=page&amp;utm_medium=cta&amp;utm_campaign={{campaign_name}}" class="btn green">קראתי את הפוסט, תודה</a>
-      <p class="share-note">מרגישים שיש אנשים שהדף הזה יכול לעזור להם? שלחו להם את הלינק.</p>
+    <!-- UP NEXT TEASER -->
+    <div class="up-next">
+      <strong>סופ״ש הבא:</strong> {{up_next_teaser}}
     </div>
 
-    <!-- FOOTER (constant) -->
+    <!-- INLINE NEWSLETTER SIGNUP -->
+    <div class="card">
+      <h2>נשארנו בקשר</h2>
+      <p>הצטרף לרשימת הוואטסאפ + מייל. שום ספאם — רק יום שישי בבוקר, גיליון חדש.</p>
+      <form class="signup-form" id="newsletter-signup" data-campaign="{{campaign_name}}">
+        <input type="email" name="email" placeholder="האימייל שלך" required>
+        <button type="submit" class="btn dark">קח אותי פנימה</button>
+        <div class="status" id="signup-status"></div>
+      </form>
+    </div>
+
+    <!-- SHARE + FEEDBACK -->
+    <div class="card">
+      <h2>אם הדף עזר לך</h2>
+      <p>שתי דרכים לסגור איתי את הסופ״ש:</p>
+      <div class="share-row">
+        <a class="btn green" href="https://wa.me/?text=%D7%AA%D7%99%D7%A8%D7%90%D7%94%20%D7%90%D7%AA%20%D7%96%D7%94%20%E2%80%94%20%D7%92%D7%99%D7%9C%D7%99%D7%95%D7%9F%20%D7%97%D7%93%D7%A9%20%D7%A9%D7%9C%20%D7%AA%D7%95%D7%91%D7%A0%D7%95%D7%AA%20%D7%9C%D7%A1%D7%95%D7%A4%E2%80%9D%D7%A9%20%F0%9F%8C%8A%0Ahttps%3A%2F%2Fchasing-fun-newsletter.vercel.app%2Fposts%2Fweekend-insights-{{N}}%3Futm_source%3Dwhatsapp%26utm_medium%3Dshare_friend%26utm_campaign%3D{{campaign_name}}">
+          📤 שלח לחבר
+        </a>
+        <a class="btn dark" href="https://wa.me/972548668646?text=%D7%A7%D7%A8%D7%90%D7%AA%D7%99%20%D7%90%D7%AA%20%D7%94%D7%A4%D7%95%D7%A1%D7%98%2C%20%D7%AA%D7%95%D7%93%D7%94&amp;utm_source=page&amp;utm_medium=cta&amp;utm_campaign={{campaign_name}}">
+          🙏 קראתי, תודה
+        </a>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
     <footer>
       <img src="https://chasingfun.co.il/wp-content/uploads/2026/03/Final-Logo-01-3.png" alt="Chasing Fun" />
-      <div style="color:#94a3b8;font-size:13px;margin-top:8px;">© Chasing Fun</div>
+      <div class="footer-links">
+        <a href="/">דף הבית</a>·<a href="/archive">גיליונות קודמים</a>·<a href="https://chasingfun.co.il">chasingfun.co.il</a>
+      </div>
+      <div style="color:#cbd5e1;font-size:12px;margin-top:8px;">© Chasing Fun</div>
     </footer>
 
   </div>
+
+  <script>
+    // Reading progress bar
+    (function(){
+      var bar = document.getElementById('progressBar');
+      function update(){
+        var h = document.documentElement;
+        var b = document.body;
+        var st = h.scrollTop || b.scrollTop;
+        var sh = (h.scrollHeight || b.scrollHeight) - h.clientHeight;
+        var p = sh > 0 ? (st / sh) * 100 : 0;
+        bar.style.width = p + '%';
+      }
+      window.addEventListener('scroll', update, {passive:true});
+      update();
+    })();
+
+    // Inline newsletter signup → Google Apps Script
+    (function(){
+      var form = document.getElementById('newsletter-signup');
+      if(!form) return;
+      var SIGNUP_URL = '{{signup_endpoint_url}}';
+      form.addEventListener('submit', function(e){
+        e.preventDefault();
+        var status = document.getElementById('signup-status');
+        var email = form.querySelector('input[name="email"]').value;
+        var campaign = form.dataset.campaign || 'unknown';
+        status.className = 'status';
+        status.textContent = 'שולח...';
+        if(!SIGNUP_URL || SIGNUP_URL.indexOf('{{') === 0){
+          status.className = 'status error';
+          status.textContent = 'הטופס עוד לא חובר. בינתיים: שלח לי וואטסאפ.';
+          return;
+        }
+        fetch(SIGNUP_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+          body: 'email=' + encodeURIComponent(email) + '&campaign=' + encodeURIComponent(campaign) + '&source=page'
+        }).then(function(){
+          status.className = 'status success';
+          status.textContent = 'מעולה! נתראה ביום שישי הבא 🌊';
+          form.reset();
+        }).catch(function(){
+          status.className = 'status error';
+          status.textContent = 'משהו לא עבד. נסה שוב או שלח וואטסאפ.';
+        });
+      });
+    })();
+  </script>
 </body>
 </html>

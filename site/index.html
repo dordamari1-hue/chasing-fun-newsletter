@@ -28,6 +28,7 @@
       line-height: 1.7;
       -webkit-font-smoothing: antialiased;
     }
+    .progress-bar { position: fixed; top: 0; left: 0; height: 3px; background: linear-gradient(90deg, #14b8a6, #0f766e); width: 0; z-index: 1000; transition: width .1s; }
     .wrap { max-width: 680px; margin: 0 auto; padding: 24px 18px 80px; }
     .hero {
       background: linear-gradient(135deg, #0f172a 0%, #134e4a 100%);
@@ -92,6 +93,21 @@
       text-align: center;
       color: #64748b;
     }
+    .signup-card {
+      background: linear-gradient(135deg, #134e4a 0%, #0f766e 100%);
+      color: #fff;
+      border-radius: 18px;
+      padding: 28px 24px;
+      margin-top: 24px;
+      text-align: center;
+    }
+    .signup-card h3 { font-size: 18px; margin-bottom: 8px; }
+    .signup-card p { font-size: 14px; color: #d1fae5; margin-bottom: 14px; }
+    .signup-form input { width: 100%; padding: 13px; border: 0; border-radius: 10px; font-size: 16px; font-family: inherit; direction: rtl; text-align: right; margin-bottom: 8px; }
+    .signup-form button { width: 100%; padding: 13px; background: #f97316; color: #fff; border: 0; border-radius: 10px; font-weight: 700; font-size: 16px; cursor: pointer; font-family: inherit; }
+    .signup-form .status { font-size: 12px; min-height: 16px; margin-top: 6px; color: #d1fae5; }
+    .signup-form .status.success { color: #fef3c7; }
+    .signup-form .status.error { color: #fecaca; }
     footer {
       margin-top: 48px;
       text-align: center;
@@ -99,9 +115,15 @@
       font-size: 13px;
     }
     footer img { max-width: 140px; opacity: 0.8; margin-bottom: 12px; }
+    footer .footer-links { font-size: 13px; color: #94a3b8; margin-top: 8px; }
+    footer .footer-links a { color: #64748b; text-decoration: none; margin: 0 6px; }
+    footer .footer-links a:hover { color: #0f172a; text-decoration: underline; }
   </style>
 </head>
 <body>
+
+  <div class="progress-bar" id="progressBar"></div>
+
   <div class="wrap">
 
     <header class="hero">
@@ -114,4 +136,74 @@
 
     <!-- POSTS_LIST_START -->
     <!-- The agent will keep this section updated automatically. Newest post on top. -->
-    
+    <div class="empty-state">
+      עוד אין פוסטים. הפוסט הראשון יעלה ביום שישי הקרוב.
+    </div>
+    <!-- POSTS_LIST_END -->
+
+    <!-- INLINE NEWSLETTER SIGNUP -->
+    <div class="signup-card">
+      <h3>📩 קבלת הגיליון השבועי במייל</h3>
+      <p>יום שישי בבוקר, גיליון חדש. שום ספאם.</p>
+      <form class="signup-form" id="newsletter-signup" data-campaign="homepage">
+        <input type="email" name="email" placeholder="האימייל שלך" required>
+        <button type="submit">הצטרפות</button>
+        <div class="status" id="signup-status"></div>
+      </form>
+    </div>
+
+    <footer>
+      <img src="https://chasingfun.co.il/wp-content/uploads/2026/03/Final-Logo-01-3.png" alt="Chasing Fun" />
+      <div class="footer-links">
+        <a href="/archive">📚 גיליונות קודמים</a> · <a href="https://chasingfun.co.il">chasingfun.co.il</a>
+      </div>
+      <div style="margin-top:8px;">© Chasing Fun</div>
+    </footer>
+
+  </div>
+
+  <script>
+    (function(){
+      var bar = document.getElementById('progressBar');
+      function update(){
+        var h = document.documentElement, b = document.body;
+        var st = h.scrollTop || b.scrollTop;
+        var sh = (h.scrollHeight || b.scrollHeight) - h.clientHeight;
+        bar.style.width = (sh > 0 ? (st / sh) * 100 : 0) + '%';
+      }
+      window.addEventListener('scroll', update, {passive:true});
+      update();
+    })();
+    (function(){
+      var form = document.getElementById('newsletter-signup');
+      if(!form) return;
+      var SIGNUP_URL = '{{signup_endpoint_url}}';
+      form.addEventListener('submit', function(e){
+        e.preventDefault();
+        var status = document.getElementById('signup-status');
+        var email = form.querySelector('input[name="email"]').value;
+        var campaign = form.dataset.campaign || 'unknown';
+        status.className = 'status';
+        status.textContent = 'שולח...';
+        if(!SIGNUP_URL || SIGNUP_URL.indexOf('{{') === 0){
+          status.className = 'status error';
+          status.textContent = 'הטופס עוד לא חובר.';
+          return;
+        }
+        fetch(SIGNUP_URL, {
+          method: 'POST', mode: 'no-cors',
+          headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+          body: 'email=' + encodeURIComponent(email) + '&campaign=' + encodeURIComponent(campaign) + '&source=homepage'
+        }).then(function(){
+          status.className = 'status success';
+          status.textContent = 'מעולה! נתראה ביום שישי הבא 🌊';
+          form.reset();
+        }).catch(function(){
+          status.className = 'status error';
+          status.textContent = 'משהו לא עבד. נסה שוב.';
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
