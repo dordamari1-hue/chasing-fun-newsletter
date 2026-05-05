@@ -145,7 +145,11 @@
     <div class="signup-card">
       <h3>📩 קבלת הגיליון השבועי במייל</h3>
       <p>יום שישי בבוקר, גיליון חדש. שום ספאם.</p>
-      <form class="signup-form" id="newsletter-signup" data-campaign="homepage">
+      <form class="signup-form" id="newsletter-signup"
+            data-campaign="homepage"
+            data-source-page="homepage"
+            data-sequence="long_term_nurture">
+        <input type="text" name="name" placeholder="השם שלך" required>
         <input type="email" name="email" placeholder="האימייל שלך" required>
         <button type="submit">הצטרפות</button>
         <div class="status" id="signup-status"></div>
@@ -178,25 +182,50 @@
       var form = document.getElementById('newsletter-signup');
       if(!form) return;
       var SIGNUP_URL = '{{signup_endpoint_url}}';
+
+      function getQueryParam(name){
+        var m = new RegExp('[?&]' + name + '=([^&]+)').exec(window.location.search);
+        return m ? decodeURIComponent(m[1]) : '';
+      }
+
       form.addEventListener('submit', function(e){
         e.preventDefault();
         var status = document.getElementById('signup-status');
-        var email = form.querySelector('input[name="email"]').value;
-        var campaign = form.dataset.campaign || 'unknown';
         status.className = 'status';
         status.textContent = 'שולח...';
+
         if(!SIGNUP_URL || SIGNUP_URL.indexOf('{{') === 0){
           status.className = 'status error';
           status.textContent = 'הטופס עוד לא חובר.';
           return;
         }
+
+        var name        = form.querySelector('input[name="name"]').value;
+        var email       = form.querySelector('input[name="email"]').value;
+        var source_page = form.dataset.sourcePage || 'homepage';
+        var sequence    = form.dataset.sequence   || 'long_term_nurture';
+        var campaign    = form.dataset.campaign   || 'homepage';
+        var utm_source  = getQueryParam('utm_source');
+        var utm_medium  = getQueryParam('utm_medium');
+
+        var body =
+          'name='        + encodeURIComponent(name) +
+          '&email='      + encodeURIComponent(email) +
+          '&source_page='+ encodeURIComponent(source_page) +
+          '&source_url=' + encodeURIComponent(window.location.href) +
+          '&sequence='   + encodeURIComponent(sequence) +
+          '&campaign='   + encodeURIComponent(campaign) +
+          '&utm_source=' + encodeURIComponent(utm_source) +
+          '&utm_medium=' + encodeURIComponent(utm_medium) +
+          '&user_agent=' + encodeURIComponent(navigator.userAgent);
+
         fetch(SIGNUP_URL, {
           method: 'POST', mode: 'no-cors',
           headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-          body: 'email=' + encodeURIComponent(email) + '&campaign=' + encodeURIComponent(campaign) + '&source=homepage'
+          body: body
         }).then(function(){
           status.className = 'status success';
-          status.textContent = 'מעולה! נתראה ביום שישי הבא 🌊';
+          status.textContent = 'מעולה ' + name + '! נתראה ביום שישי הבא 🌊';
           form.reset();
         }).catch(function(){
           status.className = 'status error';

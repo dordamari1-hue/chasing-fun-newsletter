@@ -10,21 +10,37 @@
 https://forms.gle/APYSNPtgJZdH6wYP7
 ```
 
-## Newsletter Signup Endpoint (new — inline form on site, posts to Google Sheet)
-```
-NEEDS_SETUP
-```
-> Set up via `07-integrations/newsletter-signup-setup.md`.
-> When deployed, paste the Apps Script Web App URL here (replaces `NEEDS_SETUP`).
-> The agent injects it into all templates wherever `{{signup_endpoint_url}}` appears.
+## Signups Database (Google Sheet — created)
+- **Sheet name:** Chasing Fun — Signups Database
+- **Sheet ID:** `1LaVug4kIG-JdwY17PTOPmZ3wCOBawL7hd6riAPpk6N8`
+- **Direct link:** <https://docs.google.com/spreadsheets/d/1LaVug4kIG-JdwY17PTOPmZ3wCOBawL7hd6riAPpk6N8/edit>
+- **Schema:** timestamp, name, email, source_page, source_url, sequence, campaign, utm_source, utm_medium, user_agent, status, notes
 
-## Forecast Widget — Default Spot
-- **Spot:** Hilton Beach, Tel Aviv (default — overridable per post)
-- **Embed URL pattern:**
-  ```
-  https://embed.windy.com/embed2.html?lat=32.0917&lon=34.7700&zoom=11&level=surface&overlay=waves&menu=&message=&marker=&calendar=&pressure=&type=map&location=coordinates&detail=&detailLat=32.0917&detailLon=34.7700&metricWind=default&metricTemp=default&radarRange=-1
-  ```
-> Configure other spots via `07-integrations/forecast-widget-setup.md`.
+## Signups Endpoint (Apps Script Web App)
+```
+NEEDS_DEPLOY
+```
+> Created automatically; deployed manually by you.
+> Setup steps in `07-integrations/newsletter-signup-setup.md`.
+> When you paste the deployed URL here, the agent injects it into all templates
+> where `{{signup_endpoint_url}}` appears.
+
+## Forecast Widget — Default (Hilton Beach, Tel Aviv)
+**Embed HTML to inject into `{{windy_widget_html}}`:**
+```html
+<iframe class="windy" loading="lazy" src="https://embed.windy.com/embed2.html?type=forecast&location=coordinates&detail=&detailLat=32.0917&detailLon=34.7700&metricWind=default&metricTemp=default&radarRange=-1&menu=&message=&marker=true&calendar=&pressure=&overlay=waves"></iframe>
+```
+- **Lat/Lon:** 32.0917, 34.7700 (Hilton Beach, Tel Aviv)
+- **Type:** `forecast` — combines map + per-spot detail (chart-like)
+- **Overlay:** `waves` — wave height visualization
+- Override per post by passing different lat/lon if a weekly post is themed around another spot.
+
+## Per-Page Form Defaults
+| Page | source_page | sequence |
+|---|---|---|
+| Homepage (`/`) | `homepage` | `long_term_nurture` |
+| Archive (`/archive`) | `archive` | `long_term_nurture` |
+| Weekly post (`/posts/weekend-insights-N`) | `weekend-magazine` | `long_term_nurture` |
 
 ## Logo (always at footer)
 ```

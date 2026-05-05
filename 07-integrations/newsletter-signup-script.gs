@@ -1,82 +1,73 @@
 /**
- * Chasing Fun Newsletter — Email signup endpoint
+ * Chasing Fun — Multi-LP Signup Endpoint
  *
- * Receives POST requests from the website's inline signup form
- * and appends each submission to a Google Sheet.
+ * Receives POST requests from the website's signup forms (any landing page).
+ * Each form posts: name, email, source_page, source_url, sequence,
+ * campaign, utm_source, utm_medium, user_agent.
+ *
+ * Appends every submission as a new row in the central Signups sheet.
+ *
+ * The downstream automation system (built elsewhere) reads from this sheet
+ * by `sequence` to route each subscriber into the right nurture flow.
  *
  * DEPLOY AS WEB APP:
  *   - Execute as: Me (your email)
- *   - Who has access: Anyone (required for the form to work without login)
- *
- * The deployed Web App URL is what we paste into FIXED_LINKS.md as
- * NEWSLETTER_SIGNUP_ENDPOINT — and the agent injects it into the templates.
+ *   - Who has access: Anyone (required so the form works without login)
  */
 
-// === EDIT THIS: paste the ID of your Google Sheet (from its URL) ===
-const SHEET_ID = 'PASTE_SHEET_ID_HERE';
-const SHEET_NAME = 'Signups';   // tab name in the sheet (will be created if missing)
+// === Pre-configured: the sheet is already created and headers are set ===
+const SHEET_ID = '1LaVug4kIG-JdwY17PTOPmZ3wCOBawL7hd6riAPpk6N8';
 
 function doPost(e) {
   try {
-    var sheet = getOrCreateSheet();
-    var params = e.parameter || {};
-    var email = (params.email || '').trim().toLowerCase();
-    var campaign = (params.campaign || '').trim();
-    var source = (params.source || '').trim();
+    var sheet = SpreadsheetApp.openById(SHEET_ID).getSheets()[0];
+    var p = e.parameter || {};
+
+    var name        = (p.name        || '').trim();
+    var email       = (p.email       || '').trim().toLowerCase();
+    var source_page = (p.source_page || '').trim();
+    var source_url  = (p.source_url  || '').trim();
+    var sequence    = (p.sequence    || '').trim();
+    var campaign    = (p.campaign    || '').trim();
+    var utm_source  = (p.utm_source  || '').trim();
+    var utm_medium  = (p.utm_medium  || '').trim();
+    var user_agent  = (p.user_agent  || '').trim();
 
     if (!isValidEmail(email)) {
-      return jsonResponse({ ok: false, error: 'invalid_email' }, 400);
-    }
-
-    // De-dup: don't add the same email twice from the same campaign
-    if (alreadyExists(sheet, email)) {
-      return jsonResponse({ ok: true, status: 'already_subscribed' });
+      return jsonResponse({ ok: false, error: 'invalid_email' });
     }
 
     sheet.appendRow([
       new Date(),
+      name,
       email,
+      source_page,
+      source_url,
+      sequence,
       campaign,
-      source,
-      e.parameter.userAgent || ''
+      utm_source,
+      utm_medium,
+      user_agent,
+      '',  // status — for manual tracking later (subscribed/unsubscribed/bounced)
+      ''   // notes — for manual notes later
     ]);
 
-    return jsonResponse({ ok: true, status: 'added' });
+    return jsonResponse({ ok: true });
   } catch (err) {
-    return jsonResponse({ ok: false, error: String(err) }, 500);
+    return jsonResponse({ ok: false, error: String(err) });
   }
 }
 
 function doGet() {
-  // Health check — returns 200 if the script is alive
+  // Health check
   return jsonResponse({ ok: true, status: 'alive' });
-}
-
-function getOrCreateSheet() {
-  var ss = SpreadsheetApp.openById(SHEET_ID);
-  var sheet = ss.getSheetByName(SHEET_NAME);
-  if (!sheet) {
-    sheet = ss.insertSheet(SHEET_NAME);
-    sheet.appendRow(['Timestamp', 'Email', 'Campaign', 'Source', 'UserAgent']);
-    sheet.setFrozenRows(1);
-  }
-  return sheet;
-}
-
-function alreadyExists(sheet, email) {
-  if (sheet.getLastRow() < 2) return false;
-  var emails = sheet.getRange(2, 2, sheet.getLastRow() - 1, 1).getValues();
-  for (var i = 0; i < emails.length; i++) {
-    if (String(emails[i][0]).toLowerCase() === email) return true;
-  }
-  return false;
 }
 
 function isValidEmail(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
-function jsonResponse(obj, status) {
+function jsonResponse(obj) {
   return ContentService.createTextOutput(JSON.stringify(obj))
     .setMimeType(ContentService.MimeType.JSON);
 }
