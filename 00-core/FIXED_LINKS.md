@@ -16,14 +16,14 @@ https://forms.gle/APYSNPtgJZdH6wYP7
 - **Direct link:** <https://docs.google.com/spreadsheets/d/1LaVug4kIG-JdwY17PTOPmZ3wCOBawL7hd6riAPpk6N8/edit>
 - **Schema:** timestamp, name, email, source_page, source_url, sequence, campaign, utm_source, utm_medium, user_agent, status, notes
 
-## Signups Endpoint (Apps Script Web App)
+## Signups Endpoint (Apps Script Web App — DEPLOYED)
 ```
-NEEDS_DEPLOY
+https://script.google.com/macros/s/AKfycbyj_kYbRKHO8yPG7QuR8AG7tQguC0VtIM1XVqdJrK8Iv426duPu6U7FlUQmYqNqR6Jb6Q/exec
 ```
-> Created automatically; deployed manually by you.
-> Setup steps in `07-integrations/newsletter-signup-setup.md`.
-> When you paste the deployed URL here, the agent injects it into all templates
-> where `{{signup_endpoint_url}}` appears.
+- **Account:** chasingfm@gmail.com
+- **Deployed:** 2026-05-05
+- This URL is the value injected anywhere `{{signup_endpoint_url}}` appears in templates.
+- Setup record in `07-integrations/newsletter-signup-setup.md`.
 
 ## Forecast Widget — Default (Hilton Beach, Tel Aviv)
 **Embed HTML to inject into `{{windy_widget_html}}`:**
