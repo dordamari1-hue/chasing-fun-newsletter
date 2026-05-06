@@ -142,18 +142,26 @@
     <!-- POSTS_LIST_END -->
 
     <!-- INLINE NEWSLETTER SIGNUP -->
-    <div class="signup-card">
-      <h3>📩 קבלת הגיליון השבועי במייל</h3>
-      <p>יום שישי בבוקר, גיליון חדש. שום ספאם.</p>
-      <form class="signup-form" id="newsletter-signup"
-            data-campaign="homepage"
-            data-source-page="homepage"
-            data-sequence="long_term_nurture">
-        <input type="text" name="name" placeholder="השם שלך" required>
-        <input type="email" name="email" placeholder="האימייל שלך" required>
-        <button type="submit">הצטרפות</button>
-        <div class="status" id="signup-status"></div>
-      </form>
+    <div class="signup-card" id="signup-card">
+      <div id="signup-form-container">
+        <h3>📩 קבלת הגיליון השבועי במייל</h3>
+        <p>יום שישי בבוקר, גיליון חדש. שום ספאם.</p>
+        <form class="signup-form" id="newsletter-signup"
+              data-campaign="homepage"
+              data-source-page="homepage"
+              data-sequence="long_term_nurture">
+          <input type="text" name="name" placeholder="השם שלך" required>
+          <input type="email" name="email" placeholder="האימייל שלך" required>
+          <button type="submit">הצטרפות</button>
+          <div class="status" id="signup-status"></div>
+        </form>
+      </div>
+      <div id="signup-success" style="display:none; padding: 20px 0;">
+        <div style="font-size:56px; line-height:1; margin-bottom:14px;">🌊</div>
+        <h3 style="font-size:22px; margin-bottom:10px; color:#fff;">קיבלנו, <span id="success-name"></span>!</h3>
+        <p style="font-size:15px; color:#d1fae5; margin-bottom:6px;">הגיליון הראשון שלך יגיע ביום שישי בבוקר.</p>
+        <p style="font-size:13px; color:#a7f3d0; opacity:0.9;">בדוק תיבת ה-spam אם הוא לא מגיע — והוסף את הכתובת לרשימת הקשר שלך.</p>
+      </div>
     </div>
 
     <footer>
@@ -182,17 +190,24 @@
       var form = document.getElementById('newsletter-signup');
       if(!form) return;
       var SIGNUP_URL = 'https://script.google.com/macros/s/AKfycbyj_kYbRKHO8yPG7QuR8AG7tQguC0VtIM1XVqdJrK8Iv426duPu6U7FlUQmYqNqR6Jb6Q/exec';
+      var EMAIL_RE = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
       function getQueryParam(name){
         var m = new RegExp('[?&]' + name + '=([^&]+)').exec(window.location.search);
         return m ? decodeURIComponent(m[1]) : '';
       }
 
+      function showSuccess(name){
+        document.getElementById('success-name').textContent = name;
+        document.getElementById('signup-form-container').style.display = 'none';
+        document.getElementById('signup-success').style.display = 'block';
+      }
+
       form.addEventListener('submit', function(e){
         e.preventDefault();
         var status = document.getElementById('signup-status');
         status.className = 'status';
-        status.textContent = 'שולח...';
+        status.textContent = '';
 
         if(!SIGNUP_URL || SIGNUP_URL.indexOf('{{') === 0){
           status.className = 'status error';
@@ -200,8 +215,24 @@
           return;
         }
 
-        var name        = form.querySelector('input[name="name"]').value;
-        var email       = form.querySelector('input[name="email"]').value;
+        var name        = form.querySelector('input[name="name"]').value.trim();
+        var email       = form.querySelector('input[name="email"]').value.trim();
+
+        // Strict email validation
+        if(!EMAIL_RE.test(email)){
+          status.className = 'status error';
+          status.textContent = 'האימייל לא תקין — תבדוק שוב 🙏';
+          return;
+        }
+        if(name.length < 2){
+          status.className = 'status error';
+          status.textContent = 'תכניס שם ולא רק תו אחד 🙂';
+          return;
+        }
+
+        status.className = 'status';
+        status.textContent = 'שולח...';
+
         var source_page = form.dataset.sourcePage || 'homepage';
         var sequence    = form.dataset.sequence   || 'long_term_nurture';
         var campaign    = form.dataset.campaign   || 'homepage';
@@ -224,9 +255,7 @@
           headers: {'Content-Type': 'application/x-www-form-urlencoded'},
           body: body
         }).then(function(){
-          status.className = 'status success';
-          status.textContent = 'מעולה ' + name + '! נתראה ביום שישי הבא 🌊';
-          form.reset();
+          showSuccess(name);
         }).catch(function(){
           status.className = 'status error';
           status.textContent = 'משהו לא עבד. נסה שוב.';

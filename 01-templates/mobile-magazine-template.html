@@ -172,18 +172,26 @@
     </div>
 
     <!-- INLINE NEWSLETTER SIGNUP -->
-    <div class="card">
-      <h2>נשארנו בקשר</h2>
-      <p>הצטרף לרשימת הוואטסאפ + מייל. שום ספאם — רק יום שישי בבוקר, גיליון חדש.</p>
-      <form class="signup-form" id="newsletter-signup"
-            data-campaign="{{campaign_name}}"
-            data-source-page="weekend-magazine"
-            data-sequence="long_term_nurture">
-        <input type="text" name="name" placeholder="השם שלך" required>
-        <input type="email" name="email" placeholder="האימייל שלך" required>
-        <button type="submit" class="btn dark">קח אותי פנימה</button>
-        <div class="status" id="signup-status"></div>
-      </form>
+    <div class="card" id="signup-card">
+      <div id="signup-form-container">
+        <h2>נשארנו בקשר</h2>
+        <p>הצטרף לרשימת הוואטסאפ + מייל. שום ספאם — רק יום שישי בבוקר, גיליון חדש.</p>
+        <form class="signup-form" id="newsletter-signup"
+              data-campaign="{{campaign_name}}"
+              data-source-page="weekend-magazine"
+              data-sequence="long_term_nurture">
+          <input type="text" name="name" placeholder="השם שלך" required>
+          <input type="email" name="email" placeholder="האימייל שלך" required>
+          <button type="submit" class="btn dark">קח אותי פנימה</button>
+          <div class="status" id="signup-status"></div>
+        </form>
+      </div>
+      <div id="signup-success" style="display:none; padding: 20px 0; text-align:center;">
+        <div style="font-size:56px; line-height:1; margin-bottom:14px;">🌊</div>
+        <h2 style="font-size:22px; margin-bottom:10px;">קיבלנו, <span id="success-name"></span>!</h2>
+        <p style="font-size:15px; color:#475569; margin-bottom:6px;">הגיליון הראשון שלך יגיע ביום שישי בבוקר.</p>
+        <p style="font-size:13px; color:#64748b;">בדוק תיבת ה-spam אם הוא לא מגיע — והוסף את הכתובת לרשימת הקשר שלך.</p>
+      </div>
     </div>
 
     <!-- SHARE + FEEDBACK -->
@@ -232,17 +240,24 @@
       var form = document.getElementById('newsletter-signup');
       if(!form) return;
       var SIGNUP_URL = '{{signup_endpoint_url}}';
+      var EMAIL_RE = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
       function getQueryParam(name){
         var m = new RegExp('[?&]' + name + '=([^&]+)').exec(window.location.search);
         return m ? decodeURIComponent(m[1]) : '';
       }
 
+      function showSuccess(name){
+        document.getElementById('success-name').textContent = name;
+        document.getElementById('signup-form-container').style.display = 'none';
+        document.getElementById('signup-success').style.display = 'block';
+      }
+
       form.addEventListener('submit', function(e){
         e.preventDefault();
         var status = document.getElementById('signup-status');
         status.className = 'status';
-        status.textContent = 'שולח...';
+        status.textContent = '';
 
         if(!SIGNUP_URL || SIGNUP_URL.indexOf('{{') === 0){
           status.className = 'status error';
@@ -250,35 +265,47 @@
           return;
         }
 
-        var name        = form.querySelector('input[name="name"]').value;
-        var email       = form.querySelector('input[name="email"]').value;
+        var name        = form.querySelector('input[name="name"]').value.trim();
+        var email       = form.querySelector('input[name="email"]').value.trim();
+
+        // Strict client-side validation
+        if(!EMAIL_RE.test(email)){
+          status.className = 'status error';
+          status.textContent = 'האימייל לא תקין — תבדוק שוב 🙏';
+          return;
+        }
+        if(name.length < 2){
+          status.className = 'status error';
+          status.textContent = 'תכניס שם ולא רק תו אחד 🙂';
+          return;
+        }
+
+        status.className = 'status';
+        status.textContent = 'שולח...';
+
         var source_page = form.dataset.sourcePage || 'unknown';
         var sequence    = form.dataset.sequence   || 'long_term_nurture';
         var campaign    = form.dataset.campaign   || '';
         var utm_source  = getQueryParam('utm_source');
         var utm_medium  = getQueryParam('utm_medium');
-        var source_url  = window.location.href;
-        var ua          = navigator.userAgent;
 
         var body =
           'name='        + encodeURIComponent(name) +
           '&email='      + encodeURIComponent(email) +
           '&source_page='+ encodeURIComponent(source_page) +
-          '&source_url=' + encodeURIComponent(source_url) +
+          '&source_url=' + encodeURIComponent(window.location.href) +
           '&sequence='   + encodeURIComponent(sequence) +
           '&campaign='   + encodeURIComponent(campaign) +
           '&utm_source=' + encodeURIComponent(utm_source) +
           '&utm_medium=' + encodeURIComponent(utm_medium) +
-          '&user_agent=' + encodeURIComponent(ua);
+          '&user_agent=' + encodeURIComponent(navigator.userAgent);
 
         fetch(SIGNUP_URL, {
           method: 'POST', mode: 'no-cors',
           headers: {'Content-Type': 'application/x-www-form-urlencoded'},
           body: body
         }).then(function(){
-          status.className = 'status success';
-          status.textContent = 'מעולה ' + name + '! נתראה ביום שישי הבא 🌊';
-          form.reset();
+          showSuccess(name);
         }).catch(function(){
           status.className = 'status error';
           status.textContent = 'משהו לא עבד. נסה שוב או שלח וואטסאפ.';
