@@ -26,7 +26,7 @@ Where:
 
 | # | Date | Topic | Live URL | Community Link | Views | Median Time | CTA Clicks | Notes |
 |---|------|-------|----------|----------------|-------|-------------|-----------|-------|
-| _none yet_ | | | | | | | | First post pending |
+| 1 | 2026-05-08 | AI לא יחליף את התחושה במים | /posts/weekend-insights-1 | ?utm_source=whatsapp&utm_medium=community&utm_campaign=weekend_insights_1 | TBD | TBD | TBD | First real edition. CTA = summer trip + referral. |
 
 ---
 
