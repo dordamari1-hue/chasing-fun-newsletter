@@ -27,6 +27,7 @@ Where:
 | # | Date | Topic | Live URL | Community Link | Views | Median Time | CTA Clicks | Notes |
 |---|------|-------|----------|----------------|-------|-------------|-----------|-------|
 | 1 | 2026-05-08 | AI לא יחליף את התחושה במים | /posts/weekend-insights-1 | ?utm_source=whatsapp&utm_medium=community&utm_campaign=weekend_insights_1 | TBD | TBD | TBD | First real edition. CTA = summer trip + referral. |
+| 2 | 2026-05-15 | אגו זו לא מילה גסה | /posts/weekend-insights-2 | ?utm_source=whatsapp&utm_medium=community&utm_campaign=weekend_insights_2 | TBD | TBD | TBD | Two CTAs: wave pool meetup (community) + surf analysis offer. First post with images. |
 
 ---
 
