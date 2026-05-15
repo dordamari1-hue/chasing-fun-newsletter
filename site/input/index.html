@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>אינפוט שבועי — Chasing Fun</title>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Heebo",Arial,sans-serif;background:#f8fafc;color:#0f172a;direction:rtl;text-align:right;line-height:1.6;padding:20px 0;-webkit-font-smoothing:antialiased}
+    .wrap{max-width:780px;margin:0 auto;padding:0 18px 80px}
+    .hero{background:linear-gradient(135deg,#0f172a 0%,#134e4a 100%);color:#fff;padding:32px 24px;border-radius:18px;margin-bottom:18px;text-align:center}
+    .hero h1{font-size:24px;font-weight:800;margin-bottom:6px}
+    .hero p{font-size:14px;opacity:.85}
+    .meta{background:#fff;padding:14px 18px;border-radius:14px;margin-bottom:18px;font-size:13px;color:#475569;display:flex;gap:18px;flex-wrap:wrap;align-items:center}
+    .meta strong{color:#0f172a}
+    .meta input.inline{padding:6px 10px;border:1px solid #e2e8f0;border-radius:8px;font-family:inherit;font-size:13px;direction:rtl;text-align:right;background:#fff;width:auto;display:inline-block;margin-right:4px}
+    .meta input.inline.num{width:60px;text-align:center;direction:ltr}
+    .meta input.inline.date{width:140px;direction:ltr}
+    .section{background:#fff;border-radius:18px;padding:24px;margin-bottom:14px;box-shadow:0 2px 8px rgba(15,23,42,.05)}
+    .section h2{font-size:18px;font-weight:700;margin-bottom:6px;color:#0f172a}
+    .section .label{font-size:11px;font-weight:700;letter-spacing:1px;color:#14b8a6;text-transform:uppercase;margin-bottom:8px;display:block}
+    .section .help{font-size:13px;color:#64748b;margin-bottom:14px;font-style:italic;background:#f1f5f9;padding:10px 12px;border-radius:8px;border-right:3px solid #14b8a6}
+    .section .help b{color:#0f172a;font-style:normal}
+    label{display:block;font-size:13px;font-weight:600;color:#475569;margin:14px 0 6px}
+    label .opt{font-weight:400;color:#94a3b8}
+    input[type="text"],input[type="url"],textarea,select{width:100%;padding:10px 14px;border:1px solid #e2e8f0;border-radius:10px;font-family:inherit;font-size:15px;direction:rtl;text-align:right;background:#fff;line-height:1.5}
+    input[type="text"]:focus,input[type="url"]:focus,textarea:focus,select:focus{outline:none;border-color:#14b8a6;box-shadow:0 0 0 3px rgba(20,184,166,.12)}
+    textarea{resize:vertical;min-height:90px}
+    textarea.tall{min-height:140px}
+    .radio-group{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;margin-top:6px}
+    .radio-option{position:relative}
+    .radio-option input[type="radio"]{position:absolute;opacity:0}
+    .radio-option label{display:block;padding:11px 14px;border:1px solid #e2e8f0;border-radius:10px;cursor:pointer;text-align:center;font-weight:600;font-size:13px;color:#475569;transition:all .15s;margin:0}
+    .radio-option input:checked + label{background:#0f766e;color:#fff;border-color:#0f766e}
+    .conditional{display:none;background:#f0fdfa;padding:14px;border-radius:10px;border-right:3px solid #14b8a6;margin-top:10px}
+    .conditional.visible{display:block}
+    .actions{position:sticky;bottom:14px;background:linear-gradient(135deg,#0f172a,#134e4a);padding:18px;border-radius:18px;margin-top:24px;box-shadow:0 8px 30px rgba(15,23,42,.3);text-align:center;color:#fff;z-index:10}
+    .actions .btn{display:inline-block;padding:14px 28px;background:#f97316;color:#fff;border:0;border-radius:10px;font-weight:700;font-size:16px;cursor:pointer;font-family:inherit;margin:0 4px}
+    .actions .btn.secondary{background:#1e293b}
+    .actions .btn:hover{filter:brightness(1.1)}
+    .saved-indicator{font-size:12px;color:#94a3b8;margin-bottom:8px;min-height:14px}
+    .saved-indicator.live{color:#10b981}
+    .output-section{background:#0f172a;color:#e2e8f0;border-radius:18px;padding:18px;margin-top:14px;display:none}
+    .output-section.visible{display:block}
+    .output-section h3{color:#fff;font-size:16px;margin-bottom:10px}
+    .output-section .copy-btn{background:#10b981;color:#fff;border:0;padding:10px 16px;border-radius:8px;font-weight:700;cursor:pointer;font-size:14px;font-family:inherit;margin-bottom:10px}
+    .output-section .copy-btn.copied{background:#0f766e}
+    .output-section pre{background:#020617;padding:14px;border-radius:8px;overflow-x:auto;direction:ltr;text-align:left;font-family:Consolas,"Courier New",monospace;font-size:12px;line-height:1.5;max-height:400px;overflow-y:auto;color:#cbd5e1;white-space:pre-wrap;word-break:break-word}
+    .image-instructions{background:#fef3c7;border:1px solid #fcd34d;border-radius:10px;padding:12px;font-size:13px;color:#78350f;margin-top:6px}
+    .image-instructions code{background:#fff;padding:2px 6px;border-radius:4px;font-family:Consolas,monospace;font-size:11px;direction:ltr;display:inline-block}
+    .gate{max-width:480px;margin:80px auto;background:#fff;border-radius:18px;padding:40px 28px;text-align:center;box-shadow:0 4px 20px rgba(15,23,42,.08)}
+    .gate h1{font-size:22px;margin-bottom:8px;color:#0f172a}
+    .gate p{color:#64748b;margin-bottom:18px;font-size:14px}
+    .gate input{width:100%;padding:12px 14px;border:1px solid #e2e8f0;border-radius:10px;font-family:inherit;font-size:16px;direction:ltr;text-align:center;margin-bottom:10px;letter-spacing:1px}
+    .gate button{width:100%;padding:14px;background:#0f172a;color:#fff;border:0;border-radius:10px;font-weight:700;font-size:16px;cursor:pointer;font-family:inherit}
+    .gate .err{color:#dc2626;font-size:13px;margin-top:8px;min-height:18px}
+  </style>
+</head>
+<body>
+
+  <!-- ============ ACCESS GATE ============ -->
+  <div id="gate" class="gate" style="display:none;">
+    <h1>🌊 גישה לאינפוט</h1>
+    <p>תכניס את ה-token שדור שלח לך כדי לפתוח את הטופס.</p>
+    <input type="text" id="gate-token" placeholder="paste your token here" autocomplete="off">
+    <button onclick="checkGate()">פתח</button>
+    <div class="err" id="gate-err"></div>
+  </div>
+
+  <!-- ============ MAIN FORM ============ -->
+  <div id="main" class="wrap" style="display:none;">
+
+    <header class="hero">
+      <h1>📝 אינפוט שבועי</h1>
+      <p>תובנות לסופ״ש — מילוי טופס</p>
+    </header>
+
+    <div class="meta">
+      <span><strong>גיליון #</strong><input type="text" class="inline num" id="issue_num" value="2"></span>
+      <span><strong>תאריך פרסום:</strong><input type="text" class="inline date" id="publish_date" value="2026-05-15"></span>
+      <span><strong>קמפיין:</strong> weekend_insights_<span id="campaign_num">2</span></span>
+    </div>
+
+    <!-- FRAMING -->
+    <div class="section">
+      <span class="label">פתיח השבוע</span>
+      <h2>משפט פתיחה (Framing)</h2>
+      <div class="help">
+        משפט אחד קצר שמופיע מתחת ל-Hero. <b>הצעות:</b> "השבוע יצא קצת ארוך. תיקח את הזמן." / "חמישה גלים. שבת בבוקר. כוס קפה לידך — מתחילים."
+      </div>
+      <label>הטקסט שלך <span class="opt">(אופציונלי)</span></label>
+      <input type="text" id="framing" placeholder="משפט אחד שמסכם את הוייב של הגיליון">
+    </div>
+
+    <!-- FORECAST -->
+    <div class="section">
+      <span class="label">תחזית גלים</span>
+      <h2>🌊 תחזית לסופ״ש</h2>
+      <div class="help">
+        2-4 משפטים על מה הים מתכנן. <b>הצעה:</b> "שבת בבוקר רגוע — מים שטוחים, כמעט בלי רוח. ראשון מביא קצת אנרגיה — סוויל קל מצפון-מערב."
+      </div>
+      <label>כותרת <span class="opt">(אופציונלי)</span></label>
+      <input type="text" id="forecast_title" placeholder="לדוגמה: מה הים מתכנן השבוע">
+      <label>טקסט התחזית</label>
+      <textarea id="forecast_text" placeholder="2-4 משפטים על המים, רוח, שעות אופטימליות"></textarea>
+      <label>שם קובץ תמונת תחזית <span class="opt">(אופציונלי)</span></label>
+      <input type="text" id="forecast_image" placeholder="forecast.jpg">
+      <div class="image-instructions">
+        💡 <strong>איך מוסיפים תמונה:</strong> שלח אותה לדור בוואטסאפ עם השם של הקובץ ביחד עם ההודעה "מילאתי". הוא ידאג לעלות אותה לתיקייה הנכונה.
+      </div>
+    </div>
+
+    <!-- WAVE 1 -->
+    <div class="section">
+      <span class="label">גל #1</span>
+      <h2>אישי — תובנה מהשבוע</h2>
+      <div class="help">
+        רגע במים שגרם לחשוב על משהו אחר • שיחה שהזכירה לך משהו • הבדל קטן השבוע שלא ציפית לו.
+      </div>
+      <label>כותרת <span class="opt">(אופציונלי)</span></label>
+      <input type="text" id="w1_title">
+      <label>גוף הטקסט</label>
+      <textarea id="w1_body" class="tall"></textarea>
+    </div>
+
+    <!-- WAVE 2 -->
+    <div class="section">
+      <span class="label">גל #2</span>
+      <h2>קטע שעבד עליי השבוע</h2>
+      <div class="help">
+        ציטוט / שיר / שורה מספר / משפט משיחה — לא חייב להיות "ציטוט קלאסי".
+      </div>
+      <label>כותרת <span class="opt">(אופציונלי)</span></label>
+      <input type="text" id="w2_title">
+      <label>הקטע / הציטוט</label>
+      <textarea id="w2_quote"></textarea>
+      <label>מקור <span class="opt">(אופציונלי)</span></label>
+      <input type="text" id="w2_source">
+      <label>הפרשנות שלך</label>
+      <textarea id="w2_body"></textarea>
+    </div>
+
+    <!-- INLINE IMAGE -->
+    <div class="section">
+      <span class="label">תמונה בתוך הפוסט</span>
+      <h2>📷 (אופציונלי)</h2>
+      <div class="help">
+        תמונה אחת בין גל #2 לגל #3 — שוברת את הקיר טקסט.
+      </div>
+      <label>שם קובץ תמונה <span class="opt">(אופציונלי)</span></label>
+      <input type="text" id="inline_image">
+      <label>Alt text <span class="opt">(אופציונלי)</span></label>
+      <input type="text" id="inline_image_alt">
+      <label>כיתוב מתחת לתמונה <span class="opt">(אופציונלי)</span></label>
+      <input type="text" id="inline_image_caption">
+    </div>
+
+    <!-- WAVE 3 -->
+    <div class="section">
+      <span class="label">גל #3</span>
+      <h2>מה למדתי השבוע</h2>
+      <label>כותרת <span class="opt">(אופציונלי)</span></label>
+      <input type="text" id="w3_title">
+      <label>גוף הטקסט</label>
+      <textarea id="w3_body" class="tall"></textarea>
+    </div>
+
+    <!-- WAVE 4 -->
+    <div class="section">
+      <span class="label">גל #4 (קלף ירוק בולט)</span>
+      <h2>💡 טיפ לים</h2>
+      <div class="help">
+        זה יוצג כקלף ירוק בולט, מוכן לצילום מסך. <b>תכתוב חד וקצר.</b>
+      </div>
+      <label>כותרת <span class="opt">(אופציונלי)</span></label>
+      <input type="text" id="w4_title">
+      <label>גוף הטקסט (2-4 משפטים)</label>
+      <textarea id="w4_body"></textarea>
+      <label>שורת פעולה (Action one-liner)</label>
+      <input type="text" id="w4_action">
+    </div>
+
+    <!-- WAVE 5 -->
+    <div class="section">
+      <span class="label">גל #5</span>
+      <h2>🎬 תוכן לצפייה</h2>
+      <div class="help">
+        תוסיף משפט אישי "למה אני ממליץ" — זה מה שעושה את ההמלצה שלך.
+      </div>
+      <label>כותרת <span class="opt">(אופציונלי)</span></label>
+      <input type="text" id="w5_title">
+      <label>תיאור (כולל "למה אני ממליץ")</label>
+      <textarea id="w5_body"></textarea>
+      <label>URL סרטון (יוטיוב או אינסטגרם)</label>
+      <input type="url" id="w5_url" placeholder="https://www.youtube.com/watch?v=...">
+    </div>
+
+    <!-- CTA -->
+    <div class="section">
+      <span class="label">בלוק CTA דינמי</span>
+      <h2>📣 קריאה לפעולה השבוע</h2>
+      <label>איזה בלוק?</label>
+      <div class="radio-group">
+        <div class="radio-option"><input type="radio" name="cta" id="cta_summer" value="summer_trip" checked><label for="cta_summer">טיול קיץ</label></div>
+        <div class="radio-option"><input type="radio" name="cta" id="cta_eb" value="early_bird"><label for="cta_eb">Early Bird</label></div>
+        <div class="radio-option"><input type="radio" name="cta" id="cta_event" value="event"><label for="cta_event">אירוע</label></div>
+        <div class="radio-option"><input type="radio" name="cta" id="cta_community" value="community"><label for="cta_community">קהילה</label></div>
+        <div class="radio-option"><input type="radio" name="cta" id="cta_teaser" value="teaser"><label for="cta_teaser">טיזר</label></div>
+        <div class="radio-option"><input type="radio" name="cta" id="cta_none" value="none"><label for="cta_none">אין</label></div>
+      </div>
+      <label>טקסט מותאם <span class="opt">(אופציונלי)</span></label>
+      <textarea id="cta_custom"></textarea>
+
+      <div class="conditional" id="cta_eb_fields">
+        <label>שם הטיול</label><input type="text" id="trip_name">
+        <label>תיאור קצר</label><input type="text" id="trip_desc">
+        <label>תאריך סגירה</label><input type="text" id="trip_deadline">
+      </div>
+      <div class="conditional" id="cta_event_fields">
+        <label>שם האירוע</label><input type="text" id="event_name">
+        <label>תיאור</label><input type="text" id="event_desc">
+        <label>תאריך ומיקום</label><input type="text" id="event_when">
+      </div>
+      <div class="conditional" id="cta_community_fields">
+        <label>הודעת קהילה</label><textarea id="community_msg"></textarea>
+      </div>
+      <div class="conditional" id="cta_teaser_fields">
+        <label>כותרת הטיזר</label><input type="text" id="teaser_title">
+        <label>גוף הטיזר</label><textarea id="teaser_body"></textarea>
+      </div>
+    </div>
+
+    <!-- UP NEXT -->
+    <div class="section">
+      <span class="label">סופ״ש הבא</span>
+      <h2>🔮 טיזר לגיליון הבא</h2>
+      <label>שורה אחת <span class="opt">(אופציונלי)</span></label>
+      <input type="text" id="up_next">
+    </div>
+
+    <!-- NOTES -->
+    <div class="section">
+      <span class="label">הערות לסוכן</span>
+      <h2>📝 הערות מיוחדות לשבוע הזה</h2>
+      <textarea id="notes"></textarea>
+    </div>
+
+    <!-- ACTIONS -->
+    <div class="actions">
+      <div class="saved-indicator" id="saved-indicator">העריכות נשמרות אוטומטית בדפדפן</div>
+      <button type="button" class="btn" onclick="generateMD()">✨ צור Markdown</button>
+      <button type="button" class="btn secondary" onclick="clearAll()">🗑 ניקוי</button>
+    </div>
+
+    <div class="output-section" id="output-section">
+      <h3>📋 מוכן — תעתיק ושלח לדור בוואטסאפ או בצ׳אט</h3>
+      <p style="font-size:13px;color:#94a3b8;margin-bottom:10px;">תלחץ "העתק" → תפתח וואטסאפ עם דור → תכתוב <strong>"מילאתי"</strong> → תדביק.</p>
+      <button type="button" class="copy-btn" id="copy-btn" onclick="copyOutput()">📋 העתק ל-clipboard</button>
+      <button type="button" class="copy-btn" style="background:#3b82f6;margin-right:6px;" onclick="downloadMD()">⬇ הורד כקובץ</button>
+      <button type="button" class="copy-btn" style="background:#f97316;margin-right:6px;" onclick="sendToWhatsApp()">📱 פתח וואטסאפ</button>
+      <pre id="output-md"></pre>
+    </div>
+
+  </div>
+
+  <script>
+    // === Access gate ===
+    var TOKEN = 'cf-x7Q9p3K2zR';  // shared secret. Anyone with link doesn't get in without ?k= or input.
+    var STORAGE_TOKEN_KEY = 'cf_input_unlocked';
+    var STORAGE_KEY_PREFIX = 'cf_newsletter_input_';
+
+    function unlock(){
+      document.getElementById('gate').style.display = 'none';
+      document.getElementById('main').style.display = 'block';
+      initForm();
+    }
+
+    function checkGate(){
+      var v = document.getElementById('gate-token').value.trim();
+      if(v === TOKEN){
+        localStorage.setItem(STORAGE_TOKEN_KEY, '1');
+        unlock();
+      } else {
+        document.getElementById('gate-err').textContent = 'Token לא נכון. תבדוק את הקישור שדור שלח לך.';
+      }
+    }
+
+    // Check URL param ?k= or stored unlock
+    (function(){
+      var params = new URLSearchParams(window.location.search);
+      var kParam = params.get('k');
+      var stored = localStorage.getItem(STORAGE_TOKEN_KEY);
+      if(kParam === TOKEN || stored === '1'){
+        localStorage.setItem(STORAGE_TOKEN_KEY, '1');
+        unlock();
+      } else {
+        document.getElementById('gate').style.display = 'block';
+        document.getElementById('gate-token').focus();
+      }
+
+      // Pre-fill issue num + date from URL if provided
+      var nParam = params.get('n');
+      var dParam = params.get('date');
+      if(nParam){ document.getElementById('issue_num').value = nParam; }
+      if(dParam){ document.getElementById('publish_date').value = dParam; }
+    })();
+
+    // === Form logic (only runs after unlock) ===
+    var fieldIds = [
+      'framing','forecast_title','forecast_text','forecast_image',
+      'w1_title','w1_body','w2_title','w2_quote','w2_source','w2_body',
+      'inline_image','inline_image_alt','inline_image_caption',
+      'w3_title','w3_body','w4_title','w4_body','w4_action',
+      'w5_title','w5_body','w5_url',
+      'cta_custom','trip_name','trip_desc','trip_deadline',
+      'event_name','event_desc','event_when','community_msg',
+      'teaser_title','teaser_body','up_next','notes',
+      'issue_num','publish_date'
+    ];
+
+    function getStorageKey(){
+      var n = document.getElementById('issue_num').value || '1';
+      return STORAGE_KEY_PREFIX + 'w' + n;
+    }
+    function getCtaValue(){
+      var r = document.querySelector('input[name="cta"]:checked');
+      return r ? r.value : 'summer_trip';
+    }
+    function setCtaValue(v){
+      var r = document.querySelector('input[name="cta"][value="'+v+'"]');
+      if(r){ r.checked = true; toggleCtaFields(v); }
+    }
+    function loadSaved(){
+      try{
+        var raw = localStorage.getItem(getStorageKey());
+        if(!raw) return;
+        var data = JSON.parse(raw);
+        fieldIds.forEach(function(id){
+          var el = document.getElementById(id);
+          if(el && data[id] !== undefined) el.value = data[id];
+        });
+        if(data.cta) setCtaValue(data.cta);
+        flashSaved();
+      }catch(e){}
+    }
+    function saveAll(){
+      var data = {};
+      fieldIds.forEach(function(id){ var el = document.getElementById(id); if(el) data[id] = el.value; });
+      data.cta = getCtaValue();
+      localStorage.setItem(getStorageKey(), JSON.stringify(data));
+      // Keep campaign number in sync with issue_num
+      document.getElementById('campaign_num').textContent = document.getElementById('issue_num').value || '1';
+      flashSaved();
+    }
+    var savedTimer;
+    function flashSaved(){
+      var i = document.getElementById('saved-indicator');
+      i.textContent = '✓ נשמר בדפדפן';
+      i.classList.add('live');
+      clearTimeout(savedTimer);
+      savedTimer = setTimeout(function(){
+        i.textContent = 'העריכות נשמרות אוטומטית בדפדפן';
+        i.classList.remove('live');
+      }, 1500);
+    }
+
+    function toggleCtaFields(val){
+      ['eb','event','community','teaser'].forEach(function(k){
+        var el = document.getElementById('cta_'+k+'_fields');
+        if(el) el.classList.remove('visible');
+      });
+      var map = {'early_bird':'cta_eb_fields','event':'cta_event_fields','community':'cta_community_fields','teaser':'cta_teaser_fields'};
+      if(map[val]){
+        var el = document.getElementById(map[val]);
+        if(el) el.classList.add('visible');
+      }
+    }
+
+    function initForm(){
+      document.querySelectorAll('input,textarea,select').forEach(function(el){
+        el.addEventListener('input', saveAll);
+        el.addEventListener('change', saveAll);
+      });
+      document.querySelectorAll('input[name="cta"]').forEach(function(r){
+        r.addEventListener('change', function(){ toggleCtaFields(r.value); });
+      });
+      document.getElementById('issue_num').addEventListener('input', function(){
+        document.getElementById('campaign_num').textContent = this.value || '1';
+        loadSaved(); // load saved data for THIS issue number
+      });
+      loadSaved();
+    }
+
+    // === Generate MD ===
+    function v(id){ var el = document.getElementById(id); return el ? el.value.trim() : ''; }
+    function block(label, val){ return val ? '**' + label + ':** ' + val + '\n\n' : ''; }
+    function bodyBlock(label, val){ return val ? '**' + label + ':**\n' + val + '\n\n' : ''; }
+
+    function generateMD(){
+      var num = v('issue_num') || '1';
+      var date = v('publish_date') || 'TBD';
+      var cta = getCtaValue();
+      var md = '# תובנות לסופ״ש #' + num + ' — אינפוט שבועי מלא\n\n';
+      md += '**תאריך פרסום:** ' + date + '\n';
+      md += '**קמפיין:** weekend_insights_' + num + '\n\n---\n\n';
+
+      md += '## משפט פתיחה (Framing)\n\n' + (v('framing') || '_(ריק)_') + '\n\n---\n\n';
+
+      md += '## 🌊 תחזית גלים\n\n';
+      md += block('כותרת', v('forecast_title'));
+      md += bodyBlock('טקסט', v('forecast_text'));
+      md += block('תמונה', v('forecast_image') || '_אין_');
+      md += '---\n\n';
+
+      md += '## 🌊 גל #1 · אישי\n\n';
+      md += block('כותרת', v('w1_title'));
+      md += bodyBlock('גוף', v('w1_body'));
+      md += '---\n\n';
+
+      md += '## 🌊 גל #2 · קטע שעבד עליי השבוע\n\n';
+      md += block('כותרת', v('w2_title'));
+      md += bodyBlock('הקטע', v('w2_quote'));
+      md += block('מקור', v('w2_source'));
+      md += bodyBlock('פרשנות', v('w2_body'));
+      md += '---\n\n';
+
+      if(v('inline_image')){
+        md += '## 🖼️ תמונה בתוך הפוסט\n\n';
+        md += block('שם קובץ', v('inline_image'));
+        md += block('Alt text', v('inline_image_alt'));
+        md += block('כיתוב', v('inline_image_caption'));
+        md += '---\n\n';
+      }
+
+      md += '## 🌊 גל #3 · מה למדתי\n\n';
+      md += block('כותרת', v('w3_title'));
+      md += bodyBlock('גוף', v('w3_body'));
+      md += '---\n\n';
+
+      md += '## 🌊 גל #4 · טיפ לים\n\n';
+      md += block('כותרת', v('w4_title'));
+      md += bodyBlock('גוף', v('w4_body'));
+      md += block('Action one-liner', v('w4_action'));
+      md += '---\n\n';
+
+      md += '## 🌊 גל #5 · תוכן לצפייה\n\n';
+      md += block('כותרת', v('w5_title'));
+      md += bodyBlock('תיאור', v('w5_body'));
+      md += block('URL', v('w5_url'));
+      md += '---\n\n';
+
+      md += '## 📣 בלוק CTA\n\n';
+      md += block('בלוק', cta);
+      md += bodyBlock('טקסט מותאם', v('cta_custom'));
+      if(cta === 'early_bird'){
+        md += block('שם הטיול', v('trip_name'));
+        md += block('תיאור', v('trip_desc'));
+        md += block('תאריך סגירה', v('trip_deadline'));
+      }
+      if(cta === 'event'){
+        md += block('שם האירוע', v('event_name'));
+        md += block('תיאור', v('event_desc'));
+        md += block('תאריך + מיקום', v('event_when'));
+      }
+      if(cta === 'community'){
+        md += bodyBlock('הודעת קהילה', v('community_msg'));
+      }
+      if(cta === 'teaser'){
+        md += block('כותרת הטיזר', v('teaser_title'));
+        md += bodyBlock('גוף הטיזר', v('teaser_body'));
+      }
+      md += '---\n\n';
+
+      md += '## 🔮 סופ״ש הבא\n\n' + (v('up_next') || '_(ריק)_') + '\n\n---\n\n';
+
+      var notes = v('notes');
+      if(notes){
+        md += '## 📝 הערות מיוחדות\n\n' + notes + '\n\n---\n\n';
+      }
+
+      document.getElementById('output-md').textContent = md;
+      document.getElementById('output-section').classList.add('visible');
+      document.getElementById('output-section').scrollIntoView({behavior:'smooth', block:'start'});
+    }
+
+    function copyOutput(){
+      var txt = document.getElementById('output-md').textContent;
+      navigator.clipboard.writeText(txt).then(function(){
+        var b = document.getElementById('copy-btn');
+        b.textContent = '✓ הועתק!';
+        b.classList.add('copied');
+        setTimeout(function(){
+          b.textContent = '📋 העתק ל-clipboard';
+          b.classList.remove('copied');
+        }, 3000);
+      }).catch(function(){
+        alert('לא הצלחתי להעתיק אוטומטית. תסמן את הטקסט בקופסה השחורה ותעתיק ידנית.');
+      });
+    }
+
+    function downloadMD(){
+      var txt = document.getElementById('output-md').textContent;
+      var num = v('issue_num') || '1';
+      var blob = new Blob([txt], {type:'text/markdown;charset=utf-8'});
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'weekend_insights_' + num + '_input.md';
+      a.click();
+      URL.revokeObjectURL(a.href);
+    }
+
+    function sendToWhatsApp(){
+      var txt = document.getElementById('output-md').textContent;
+      // WhatsApp URL only supports ~2000 chars, so just open WA with a placeholder; user pastes the MD
+      navigator.clipboard.writeText(txt).then(function(){
+        var num = v('issue_num') || '1';
+        var msg = encodeURIComponent('מילאתי גיליון #' + num + '. הטקסט המלא הועתק ל-clipboard — אדביק מיד.');
+        window.open('https://wa.me/972548668646?text=' + msg, '_blank');
+      }).catch(function(){
+        alert('לא הצלחתי להעתיק. תעתיק ידנית ותפתח וואטסאפ.');
+      });
+    }
+
+    function clearAll(){
+      if(!confirm('למחוק את כל מה שמילאת לגיליון #' + (v('issue_num') || '1') + '? אי אפשר לשחזר.')) return;
+      localStorage.removeItem(getStorageKey());
+      location.reload();
+    }
+  </script>
+</body>
+</html>
